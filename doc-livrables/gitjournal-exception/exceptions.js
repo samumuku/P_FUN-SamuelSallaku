@@ -7,5 +7,14 @@ const exceptions = [
     "duration": 200,
     "status": "Done",
     "author": "samumuku"
+  },
+  {
+    "patch": true,
+    "name": "Congé",
+    "description": "Congé pour la remise des prix de passage",
+    "date": "2025-09-12T12:45:00.000Z",
+    "duration": 90,
+    "status": "Done",
+    "author": "samumuku"
   }
 ]
