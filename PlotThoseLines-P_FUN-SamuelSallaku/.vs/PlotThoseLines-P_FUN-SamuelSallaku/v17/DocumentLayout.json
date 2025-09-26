@@ -7,7 +7,7 @@
       "RelativeMoniker": "D:0:0:{48D62ECE-1AE9-4AA8-8AE5-4EF9AA4B78F5}|PlotThoseLines-P_FUN-SamuelSallaku.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48D62ECE-1AE9-4AA8-8AE5-4EF9AA4B78F5}|PlotThoseLines-P_FUN-SamuelSallaku.csproj|c:\\users\\pr13xpj\\documents\\github\\p_fun-samuelsallaku\\plotthoselines-p_fun-samuelsallaku\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{48D62ECE-1AE9-4AA8-8AE5-4EF9AA4B78F5}|PlotThoseLines-P_FUN-SamuelSallaku.csproj|C:\\Users\\pr13xpj\\Documents\\GitHub\\P_FUN-SamuelSallaku\\PlotThoseLines-P_FUN-SamuelSallaku\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{48D62ECE-1AE9-4AA8-8AE5-4EF9AA4B78F5}|PlotThoseLines-P_FUN-SamuelSallaku.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -17,6 +17,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{48D62ECE-1AE9-4AA8-8AE5-4EF9AA4B78F5}|PlotThoseLines-P_FUN-SamuelSallaku.csproj|c:\\users\\pr13xpj\\documents\\github\\p_fun-samuelsallaku\\plotthoselines-p_fun-samuelsallaku\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48D62ECE-1AE9-4AA8-8AE5-4EF9AA4B78F5}|PlotThoseLines-P_FUN-SamuelSallaku.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{48D62ECE-1AE9-4AA8-8AE5-4EF9AA4B78F5}|PlotThoseLines-P_FUN-SamuelSallaku.csproj|c:\\users\\pr13xpj\\documents\\github\\p_fun-samuelsallaku\\plotthoselines-p_fun-samuelsallaku\\csvrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48D62ECE-1AE9-4AA8-8AE5-4EF9AA4B78F5}|PlotThoseLines-P_FUN-SamuelSallaku.csproj|solutionrelative:csvrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,8 +30,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CSVRecord.cs",
+              "DocumentMoniker": "C:\\Users\\pr13xpj\\Documents\\GitHub\\P_FUN-SamuelSallaku\\PlotThoseLines-P_FUN-SamuelSallaku\\CSVRecord.cs",
+              "RelativeDocumentMoniker": "CSVRecord.cs",
+              "ToolTip": "C:\\Users\\pr13xpj\\Documents\\GitHub\\P_FUN-SamuelSallaku\\PlotThoseLines-P_FUN-SamuelSallaku\\CSVRecord.cs",
+              "RelativeToolTip": "CSVRecord.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T12:22:04.459Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -49,7 +66,7 @@
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "C:\\Users\\pr13xpj\\Documents\\GitHub\\P_FUN-SamuelSallaku\\PlotThoseLines-P_FUN-SamuelSallaku\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAA1wBYAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-26T11:38:43.486Z",
               "EditorCaption": ""
@@ -74,7 +91,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\pr13xpj\\Documents\\GitHub\\P_FUN-SamuelSallaku\\PlotThoseLines-P_FUN-SamuelSallaku\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T13:57:00.905Z",
               "EditorCaption": ""
