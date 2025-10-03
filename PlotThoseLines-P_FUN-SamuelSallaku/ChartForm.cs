@@ -5,12 +5,12 @@ using System.Windows.Forms;
 
 namespace PlotThoseLines_P_FUN_SamuelSallaku
 {
-    public partial class Form1 : Form
+    public partial class ChartForm : Form
     {
         // liste de jeux
         private List<GameData> gamesData = new List<GameData>();
 
-        // classe des donnes
+        // classe des données
         private class GameData
         {
             public string Name;
@@ -18,7 +18,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             public double Sales;
         }
 
-        public Form1()
+        public ChartForm()
         {
             InitializeComponent();
         }
@@ -108,7 +108,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         }
 
         /// <summary>
-        /// event déclenché quand on change la selection des jeux
+        /// declenché quand on change la selection des jeux
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

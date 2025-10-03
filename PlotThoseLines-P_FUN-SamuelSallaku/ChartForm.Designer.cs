@@ -1,6 +1,6 @@
 ﻿namespace PlotThoseLines_P_FUN_SamuelSallaku
 {
-    partial class Form1
+    partial class ChartForm
     {
         /// <summary>
         ///  Required designer variable.
