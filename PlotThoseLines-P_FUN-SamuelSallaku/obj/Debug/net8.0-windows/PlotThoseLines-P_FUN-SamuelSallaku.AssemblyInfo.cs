@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PlotThoseLines-P_FUN-SamuelSallaku")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e195f22125b92c7c8db4a627621c92337a27ec26")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c0dbb2bbf9c0de0f9df5de23cf3838b894c13f1")]
 [assembly: System.Reflection.AssemblyProductAttribute("PlotThoseLines-P_FUN-SamuelSallaku")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PlotThoseLines-P_FUN-SamuelSallaku")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

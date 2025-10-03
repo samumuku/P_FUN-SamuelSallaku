@@ -53,29 +53,32 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                     })
                     .ToList();
 
-                // ajouter les noms des jeux à la liste (CheckedListBox)
-                Years.Items.Clear();
+                // effacer la liste
+                Games.Items.Clear();
 
+                // ajouter le nom du jeu dans la liste
                 gamesData
                     .Select(g => g.Name)
                     .Distinct()
                     .ToList()
-                    .ForEach(name => Years.Items.Add(name, true));
+                    .ForEach(name => Games.Items.Add(name, true));
 
-                // plotter les données importees
+                // appel methode pour ajouter les données
                 PlotGames();
 
                 formsPlot1.Refresh();
             }
         }
 
-        // méthode séparée pour tracer les jeux sélectionnés
+        /// <summary>
+        /// méthode séparée pour tracer les jeux sélectionnés
+        /// </summary>
         private void PlotGames()
         {
             formsPlot1.Plot.Clear(); // vider avant de re-tracer
 
             // récupérer les jeux sélectionnés
-            var selectedNames = Years.CheckedItems.Cast<string>().ToList();
+            var selectedNames = Games.CheckedItems.Cast<string>().ToList();
 
             foreach (var name in selectedNames)
             {
@@ -95,19 +98,35 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                 }
             }
 
-            // configurer le graphique
+            // personnalisation
             formsPlot1.Plot.Title("Video game sales by year"); // titre
             formsPlot1.Plot.XLabel("Years");                   // label axe X
             formsPlot1.Plot.YLabel("Sales");                   // label axe Y
             formsPlot1.Plot.Axes.DateTimeTicksBottom();        // afficher les années correctement
 
-            formsPlot1.Refresh(); // rafraîchir le graphique
+            formsPlot1.Refresh(); // refresh le graphique
         }
 
-        // event déclenché quand on change les jeux sélectionnés
+        /// <summary>
+        /// event déclenché quand on change la selection des jeux
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Years_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PlotGames(); // utiliser la méthode commune pour tracer
+            PlotGames(); // appel méthode qui ajoute les jeux dans la liste
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Years.Items.Clear();
+            gamesData
+            .Select(g => g.Year)
+            .Distinct()
+            .OrderBy(y => y)
+            .ToList()
+            .ForEach(year => Years.Items.Add(year, true));
+
         }
     }
 }

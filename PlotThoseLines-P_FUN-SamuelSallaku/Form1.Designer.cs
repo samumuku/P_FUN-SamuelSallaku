@@ -30,6 +30,7 @@
         {
             formsPlot1 = new ScottPlot.WinForms.FormsPlot();
             button1 = new Button();
+            Games = new CheckedListBox();
             Years = new CheckedListBox();
             SuspendLayout();
             // 
@@ -38,7 +39,7 @@
             formsPlot1.DisplayScale = 1F;
             formsPlot1.Location = new Point(244, 25);
             formsPlot1.Name = "formsPlot1";
-            formsPlot1.Size = new Size(728, 399);
+            formsPlot1.Size = new Size(728, 428);
             formsPlot1.TabIndex = 0;
             // 
             // button1
@@ -54,24 +55,36 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
+            // Games
+            // 
+            Games.BackColor = SystemColors.InactiveCaption;
+            Games.CheckOnClick = true;
+            Games.FormattingEnabled = true;
+            Games.Location = new Point(24, 117);
+            Games.Name = "Games";
+            Games.Size = new Size(160, 202);
+            Games.TabIndex = 2;
+            Games.SelectedIndexChanged += Years_SelectedIndexChanged;
+            // 
             // Years
             // 
             Years.BackColor = SystemColors.InactiveCaption;
             Years.CheckOnClick = true;
             Years.FormattingEnabled = true;
-            Years.Location = new Point(24, 117);
+            Years.Location = new Point(24, 325);
             Years.Name = "Years";
-            Years.Size = new Size(160, 274);
-            Years.TabIndex = 2;
-            Years.SelectedIndexChanged += Years_SelectedIndexChanged;
+            Years.Size = new Size(160, 202);
+            Years.TabIndex = 3;
+            Years.SelectedIndexChanged += checkedListBox1_SelectedIndexChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1008, 574);
+            ClientSize = new Size(1043, 640);
             Controls.Add(Years);
+            Controls.Add(Games);
             Controls.Add(button1);
             Controls.Add(formsPlot1);
             ForeColor = SystemColors.ControlText;
@@ -85,6 +98,7 @@
 
         public ScottPlot.WinForms.FormsPlot formsPlot1;
         private Button button1;
+        private CheckedListBox Games;
         private CheckedListBox Years;
     }
 }
