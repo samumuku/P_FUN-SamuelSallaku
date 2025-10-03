@@ -57,10 +57,11 @@
             // Years
             // 
             Years.BackColor = SystemColors.InactiveCaption;
+            Years.CheckOnClick = true;
             Years.FormattingEnabled = true;
-            Years.Location = new Point(24, 118);
+            Years.Location = new Point(24, 117);
             Years.Name = "Years";
-            Years.Size = new Size(160, 94);
+            Years.Size = new Size(160, 274);
             Years.TabIndex = 2;
             Years.SelectedIndexChanged += Years_SelectedIndexChanged;
             // 
