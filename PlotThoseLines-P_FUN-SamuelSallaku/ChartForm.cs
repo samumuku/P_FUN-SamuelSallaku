@@ -23,12 +23,12 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             InitializeComponent();
         }
 
-        private void Form1_Load_1(object sender, EventArgs e)
+        private void LoadPlotForm(object sender, EventArgs e)
         {
-            formsPlot1.Plot.Clear(); // effacer
+            PlotForm.Plot.Clear(); // effacer
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ImportCSV(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Import Data";
@@ -66,7 +66,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                 // appel methode pour ajouter les données
                 PlotGames();
 
-                formsPlot1.Refresh();
+                PlotForm.Refresh();
             }
         }
 
@@ -75,7 +75,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         /// </summary>
         private void PlotGames()
         {
-            formsPlot1.Plot.Clear(); // vider avant de re-tracer
+            PlotForm.Plot.Clear(); // vider avant de re-tracer
 
             // récupérer les jeux sélectionnés
             var selectedNames = Games.CheckedItems.Cast<string>().ToList();
@@ -94,17 +94,17 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                     double[] sales = games.Select(g => g.Sales).ToArray();
 
                     // ajouter la courbe
-                    formsPlot1.Plot.Add.Scatter(yearsAsDates, sales);
+                    PlotForm.Plot.Add.Scatter(yearsAsDates, sales);
                 }
             }
 
             // personnalisation
-            formsPlot1.Plot.Title("Video game sales by year"); // titre
-            formsPlot1.Plot.XLabel("Years");                   // label axe X
-            formsPlot1.Plot.YLabel("Sales");                   // label axe Y
-            formsPlot1.Plot.Axes.DateTimeTicksBottom();        // afficher les années correctement
+            PlotForm.Plot.Title("Video game sales by year"); // titre
+            PlotForm.Plot.XLabel("Years");                   // label axe X
+            PlotForm.Plot.YLabel("Sales");                   // label axe Y
+            PlotForm.Plot.Axes.DateTimeTicksBottom();        // afficher les années correctement
 
-            formsPlot1.Refresh(); // refresh le graphique
+            PlotForm.Refresh(); // refresh le graphique
         }
 
         /// <summary>
@@ -112,12 +112,12 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Years_SelectedIndexChanged(object sender, EventArgs e)
+        private void SelectGames(object sender, EventArgs e)
         {
             PlotGames(); // appel méthode qui ajoute les jeux dans la liste
         }
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void SelectYears(object sender, EventArgs e)
         {
             Years.Items.Clear();
             gamesData
