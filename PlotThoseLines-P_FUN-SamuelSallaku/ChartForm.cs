@@ -1,5 +1,7 @@
 using ScottPlot.TickGenerators.Financial;
 using ScottPlot.WinForms;
+using System.Drawing.Text;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Channels;
 using System.Windows.Forms;
 
@@ -10,14 +12,6 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         // liste de jeux
         private List<GameData> gamesData = new List<GameData>();
 
-        // classe des données
-        private class GameData
-        {
-            public string Name;
-            public int Year;
-            public double Sales;
-        }
-
         public ChartForm()
         {
             InitializeComponent();
@@ -27,7 +21,25 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         {
             PlotForm.Plot.Clear(); // effacer
         }
+        private Func<string[], int, int, int, GameData?> formatGameData = (gamedata, nameIndex, yearIndex, salesIndex) =>
+        {
+            // utiliser TryParse pour éviter les exceptions
+            bool yearParsed = int.TryParse(gamedata[yearIndex], out int year); //convertir l'année en int
+            bool salesParsed = double.TryParse(gamedata[salesIndex], // texte à convertir
+                System.Globalization.NumberStyles.Any, // definit quel formats de numero a utiliser durant le parse, dans ce cas, tout
+                System.Globalization.CultureInfo.InvariantCulture, // certain pays utilisent des numéros différents, comme en France on fait 123,45, au lieu de 123.45
+                out double sales);
 
+            if (!yearParsed || !salesParsed)
+                return null; // ignorer les lignes invalides
+
+            return new GameData
+            {
+                Name = gamedata[nameIndex].Trim(), // effacer espacements
+                Year = year, // transformer en numero le string
+                Sales = sales // " "
+            };
+        };
         private void ImportCSV(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -37,36 +49,82 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fileName = openFileDialog.FileName;
-                string[] lines = File.ReadAllLines(fileName);
 
-                // parser le CSV en objets GameData
-                gamesData = lines
-                    .Skip(1) // skip la premiere ligne
-                    .Where(line => !string.IsNullOrWhiteSpace(line)) // ignorer lignes vide
-                    .Select(line => line.Split(',')) // separation des virgules
-                    .Where(p => p.Length >= 3) // verifier quela ligne ait au moins 3 donnees
-                    .Select(gamedata => new GameData
+                try
+                {
+                    string[] lines = File.ReadAllLines(fileName);
+
+                    if (lines.Length <= 1)
                     {
-                        Name = gamedata[0].Trim(), //effacer espacements
-                        Year = int.Parse(gamedata[1]), //transforme en numero le string
-                        Sales = double.Parse(gamedata[2]) // " "
-                    })
-                    .ToList();
+                        MessageBox.Show("Le fichier est vide, ou bien il n'a pas de lignes dedans", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                // effacer la liste
-                Games.Items.Clear();
+                    // première ligne, nettoyer les espaces inutiles
+                    string[] headers = lines[0].Split(',').Select(h => h.Trim()).ToArray();
 
-                // ajouter le nom du jeu dans la liste
-                gamesData
-                    .Select(g => g.Name)
-                    .Distinct()
-                    .ToList()
-                    .ForEach(name => Games.Items.Add(name, true));
+                    // détecter les colonnes correspondantes, donc
+                    // il va chercher pour la première ligne et si par exemple nameIndex est premier alors la valeur sera 0, et 1 pour yearIndex, etc
+                    int nameIndex = Array.FindIndex(headers, h => h.Equals("Game", StringComparison.OrdinalIgnoreCase)); //StringComparison.OrdinalIgnoreCase va comparer
+                    int yearIndex = Array.FindIndex(headers, h => h.Equals("Year", StringComparison.OrdinalIgnoreCase)); // les strings, mais va ignorer la casse.
+                    int salesIndex = Array.FindIndex(headers, h => h.Equals("Sales", StringComparison.OrdinalIgnoreCase)); // si "Sales" était "sales" dans le CSV = erreur
 
-                // appel methode pour ajouter les données
-                PlotGames();
+                    // vérifier que les colonnes existent
+                    if (nameIndex == -1 || yearIndex == -1 || salesIndex == -1)
+                    {
+                        // si les colonnes voulues n'existent pas alors on affiche une erreur
+                        MessageBox.Show(
+                            "Le format CSV est invalide. Les colonnes requises: 'Game', 'Year', et 'Sales'.",
+                            "Format CSV invalide",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                        return;
+                    }
 
-                PlotForm.Refresh();
+                    
+                    // parser le CSV en objets GameData
+                    gamesData = lines
+                        .Skip(1) // skip la premiere ligne
+                        .Where(line => !string.IsNullOrWhiteSpace(line)) // ignorer lignes vide
+                        .Select(line => line.Split(',')) // separation des virgules
+                        .Where(p => p.Length > Math.Max(nameIndex, Math.Max(yearIndex, salesIndex))) // verifier que la ligne ait assez de données (colonnes)
+                        .Select(g => formatGameData(g, nameIndex, yearIndex, salesIndex))
+                        .Where(g => g != null)
+                        .ToList()!;
+
+                    // vérifier qu’il y a bien des données valides
+                    if (gamesData.Count == 0)
+                    {
+                        MessageBox.Show("Aucune donnée valide a été trouvée dans le fichier.", "Aucune donnée", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // effacer la liste
+                    Games.Items.Clear();
+
+                    // ajouter le nom du jeu dans la liste
+                    gamesData
+                        .Select(g => g.Name)
+                        .Distinct()
+                        .ToList()
+                        .ForEach(name => Games.Items.Add(name, true));
+
+                    // appel methode pour ajouter les données
+                    PlotGames();
+
+                    PlotForm.Refresh();
+                }
+                catch (Exception ex)
+                {
+                    // afficher une erreur claire plutôt que afficher une exception
+                    MessageBox.Show(
+                        "Erreur pendant le chargement du fichier CSV:\n\n" + ex.Message,
+                        "Erreur d'importation",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
             }
         }
 
