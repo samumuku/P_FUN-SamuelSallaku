@@ -110,6 +110,8 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                         .ToList()
                         .ForEach(name => Games.Items.Add(name, true));
 
+                    SelectYears();
+
                     // appel methode pour ajouter les données
                     PlotGames();
 
@@ -137,11 +139,13 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
 
             // récupérer les jeux sélectionnés
             var selectedNames = Games.CheckedItems.Cast<string>().ToList();
+            // récupérer les années selectionnées
+            var selectedYears = Years.CheckedItems.Cast<int>().ToList();
 
             foreach (var name in selectedNames)
             {
                 var games = gamesData
-                    .Where(g => g.Name == name)
+                    .Where(g => g.Name == name && selectedYears.Contains(g.Year))
                     .OrderBy(g => g.Year)
                     .ToArray();
 
@@ -173,11 +177,20 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         private void SelectGames(object sender, EventArgs e)
         {
             PlotGames(); // appel méthode qui ajoute les jeux dans la liste
+            SelectYears();
+        }
+
+        private void SelectYears()
+        {
+            SelectYears(this, EventArgs.Empty);
         }
 
         private void SelectYears(object sender, EventArgs e)
         {
-            Years.Items.Clear();
+            PlotGames();
+
+            Years.Items.Clear(); // effacer
+
             gamesData
             .Select(g => g.Year)
             .Distinct()
