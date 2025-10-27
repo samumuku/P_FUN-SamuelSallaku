@@ -20,6 +20,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         private void LoadPlotForm(object sender, EventArgs e)
         {
             PlotForm.Plot.Clear(); // effacer
+            LoadData(); // charger le fichier 
         }
         private Func<string[], int, int, int, GameData?> formatGameData = (gamedata, nameIndex, yearIndex, salesIndex) =>
         {
@@ -110,6 +111,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                         .ToList()
                         .ForEach(name => Games.Items.Add(name, true));
 
+                    SaveData(); // sauvegarder les donnees
                     SelectYears();
 
                     // appel methode pour ajouter les données
@@ -198,6 +200,76 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             .ToList()
             .ForEach(year => Years.Items.Add(year, true));
 
+        }
+        //sauvegarder les données
+        private void SaveData()
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter("gamesData.txt"))
+                {
+                    foreach (var game in gamesData)
+                    {
+                        writer.WriteLine($"{game.Name},{game.Year},{game.Sales}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de la sauvegarde : " + ex.Message);
+            }
+        }
+
+        // charger les données lors du lancement
+        private void LoadData()
+        {
+            if (!File.Exists("gamesData.txt")) return;
+
+            //refaire la lecture des données et les afficher
+            try
+            {
+                gamesData.Clear();
+                string[] lines = File.ReadAllLines("gamesData.txt");
+
+                foreach (var line in lines)
+                {
+                    var parts = line.Split(',');
+                    if (parts.Length == 3)
+                    {
+                        bool yearParsed = int.TryParse(parts[1], out int year);
+                        bool salesParsed = double.TryParse(parts[2],
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            out double sales);
+
+                        if (yearParsed && salesParsed)
+                        {
+                            gamesData.Add(new GameData
+                            {
+                                Name = parts[0].Trim(),
+                                Year = year,
+                                Sales = sales
+                            });
+                        }
+                    }
+                }
+
+                // populer la liste de jeux
+                Games.Items.Clear();
+                foreach (var name in gamesData.Select(g => g.Name).Distinct())
+                    Games.Items.Add(name, true);
+
+                // populer la list des annees
+                Years.Items.Clear();
+                foreach (var year in gamesData.Select(g => g.Year).Distinct().OrderBy(y => y))
+                    Years.Items.Add(year, true);
+
+                PlotGames();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors du chargement : " + ex.Message);
+            }
         }
     }
 }
