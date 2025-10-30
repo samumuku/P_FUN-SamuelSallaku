@@ -85,29 +85,38 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
 
                     
                     // parser le CSV en objets GameData
-                    gamesData = lines
+                    var newGames = lines
                         .Skip(1) // skip la premiere ligne
                         .Where(line => !string.IsNullOrWhiteSpace(line)) // ignorer lignes vide
                         .Select(line => line.Split(',')) // separation des virgules
                         .Where(p => p.Length > Math.Max(nameIndex, Math.Max(yearIndex, salesIndex))) // verifier que la ligne ait assez de données (colonnes)
                         .Select(g => formatGameData(g, nameIndex, yearIndex, salesIndex))
                         .Where(g => g != null)
+                        .Select(g => g!) // on sait que g n'est pas null grace au Where avant
                         .ToList()!;
 
                     // vérifier qu’il y a bien des données valides
-                    if (gamesData.Count == 0)
+                    if (!newGames.Any())
                     {
                         MessageBox.Show("Aucune donnée valide a été trouvée dans le fichier.", "Aucune donnée", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
+                    this.gamesData = this.gamesData
+                        .Concat(newGames)
+                        .GroupBy(g => (Name: g.Name.Trim().ToLowerInvariant(), g.Year))
+                        .Select(grp => grp.Last()) // garde la dernière occurrence du groupe
+                        .OrderBy(g => g.Year)
+                        .ThenBy(g => g.Name, StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+
                     // effacer la liste
                     Games.Items.Clear();
 
                     // ajouter le nom du jeu dans la liste
-                    gamesData
+                    this.gamesData
                         .Select(g => g.Name)
-                        .Distinct()
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
                         .ToList()
                         .ForEach(name => Games.Items.Add(name, true));
 
@@ -118,6 +127,8 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                     PlotGames();
 
                     PlotForm.Refresh();
+
+                    MessageBox.Show("Données importées et fusionnées avec succès !", "Importation réussie", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -246,7 +257,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                         {
                             gamesData.Add(new GameData
                             {
-                                Name = parts[0].Trim(),
+                                Name = parts[0].Trim(), // effacer tous les espaces inutiles
                                 Year = year,
                                 Sales = sales
                             });
@@ -268,6 +279,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             }
             catch (Exception ex)
             {
+                // afficher lors d'une exception
                 MessageBox.Show("Erreur lors du chargement : " + ex.Message);
             }
         }
