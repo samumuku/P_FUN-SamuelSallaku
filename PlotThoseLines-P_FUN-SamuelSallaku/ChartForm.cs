@@ -66,7 +66,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
 
                     // détecter les colonnes correspondantes, donc
                     // il va chercher pour la première ligne et si par exemple nameIndex est premier alors la valeur sera 0, et 1 pour yearIndex, etc
-                    int nameIndex = Array.FindIndex(headers, h => h.Equals("Game", StringComparison.OrdinalIgnoreCase)); //StringComparison.OrdinalIgnoreCase va comparer
+                    int nameIndex = Array.FindIndex(headers, h => h.Equals("Game", StringComparison.OrdinalIgnoreCase)); // StringComparison.OrdinalIgnoreCase va comparer
                     int yearIndex = Array.FindIndex(headers, h => h.Equals("Year", StringComparison.OrdinalIgnoreCase)); // les strings, mais va ignorer la casse.
                     int salesIndex = Array.FindIndex(headers, h => h.Equals("Sales", StringComparison.OrdinalIgnoreCase)); // si "Sales" était "sales" dans le CSV = erreur
 
