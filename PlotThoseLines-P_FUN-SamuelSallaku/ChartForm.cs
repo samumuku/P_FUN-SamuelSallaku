@@ -17,11 +17,17 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             InitializeComponent();
         }
 
+        /// <summary>
+        /// chargement du graphique
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LoadPlotForm(object sender, EventArgs e)
         {
             PlotForm.Plot.Clear(); // effacer
             LoadData(); // charger le fichier 
         }
+        // Fonction pour le formattage des données, d'un fichier CSV
         private Func<string[], int, int, int, GameData?> formatGameData = (gamedata, nameIndex, yearIndex, salesIndex) =>
         {
             // utiliser TryParse pour éviter les exceptions
@@ -41,6 +47,11 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
                 Sales = sales // " "
             };
         };
+        /// <summary>
+        /// méthode qui va ouvrir la sélection d'un fichier pour importer un CSV
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ImportCSV(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -193,26 +204,29 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             SelectYears();
         }
 
+        /// <summary>
+        /// appel de la méthode SelectYears, qui contient SelectYears(param1,param2)
+        /// </summary>
         private void SelectYears()
         {
+            // appel de la méthode SelectYears, la raison pour quoi elle existe deux fois est
+            // car une est liée au listbox dans le programmeet il a besoin de paramètres sender & e
             SelectYears(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// option de choisir les années voulues dans la listbox des années
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectYears(object sender, EventArgs e)
         {
             PlotGames();
-
-            Years.Items.Clear(); // effacer
-
-            gamesData
-            .Select(g => g.Year)
-            .Distinct()
-            .OrderBy(y => y)
-            .ToList()
-            .ForEach(year => Years.Items.Add(year, true));
-
         }
-        //sauvegarder les données
+        
+        /// <summary>
+        /// appelle la méthode saveGames pour sauvegarder les données dans la DB sqlite
+        /// </summary>
         private void SaveData()
         {
             try
@@ -225,7 +239,9 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             }
         }
 
-        // charger les données lors du lancement
+        /// <summary>
+        /// charger les données sur le graphique et listbox
+        /// </summary>
         private void LoadData()
         {
             if (!File.Exists("gamesData.txt")) return;
@@ -233,31 +249,8 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
             //refaire la lecture des données et les afficher
             try
             {
-                gamesData.Clear();
-                string[] lines = File.ReadAllLines("gamesData.txt");
-
-                foreach (var line in lines)
-                {
-                    var parts = line.Split(',');
-                    if (parts.Length == 3)
-                    {
-                        bool yearParsed = int.TryParse(parts[1], out int year);
-                        bool salesParsed = double.TryParse(parts[2],
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            out double sales);
-
-                        if (yearParsed && salesParsed)
-                        {
-                            gamesData.Add(new GameData
-                            {
-                                Name = parts[0].Trim(), // effacer tous les espaces inutiles
-                                Year = year,
-                                Sales = sales
-                            });
-                        }
-                    }
-                }
+                GameDatabase.initializeDb(); //initialization de la DB
+                gamesData = GameDatabase.loadGames(); // appel de la méthode pour charger les données, va retourner la liste
 
                 // populer la liste de jeux
                 Games.Items.Clear();
