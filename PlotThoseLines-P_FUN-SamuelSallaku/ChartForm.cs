@@ -217,13 +217,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter("gamesData.txt"))
-                {
-                    foreach (var game in gamesData)
-                    {
-                        writer.WriteLine($"{game.Name},{game.Year},{game.Sales}");
-                    }
-                }
+                GameDatabase.saveGames(gamesData);
             }
             catch (Exception ex)
             {
