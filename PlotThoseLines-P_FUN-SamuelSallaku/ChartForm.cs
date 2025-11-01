@@ -15,6 +15,8 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         public ChartForm()
         {
             InitializeComponent();
+            if (!GameDatabase.loadGames().Any())
+                GameDatabase.initializeDb(); // initialisation de la DB si elle existe pas encore
         }
 
         /// <summary>
@@ -159,7 +161,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         /// </summary>
         private void PlotGames()
         {
-            PlotForm.Plot.Clear(); // vider avant de re-tracer
+            PlotForm.Plot.Clear(); // vider avant de retracer
 
             // récupérer les jeux sélectionnés
             var selectedNames = Games.CheckedItems.Cast<string>().ToList();
@@ -244,7 +246,6 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         /// </summary>
         private void LoadData()
         {
-            if (!File.Exists("gamesData.txt")) return;
 
             //refaire la lecture des données et les afficher
             try

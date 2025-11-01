@@ -36,11 +36,34 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         }
 
         /// <summary>
+        /// méthode qui va s'assurer que la DB est initialisée et pas supprimée
+        /// </summary>
+        public static void makeSureDbIsInitialized()
+        {
+            // connexion à la db
+            using var connection = new SqliteConnection(connectionDb);
+            connection.Open();
+
+            // table
+            string table = @"
+            CREATE TABLE IF NOT EXISTS t_games (
+                Name TEXT NOT NULL,
+                Year INTEGER NOT NULL,
+                Sales REAL NOT NULL
+            );";
+
+            //création de la table t_games
+            using var cmd = new SqliteCommand(table, connection);
+            cmd.ExecuteNonQuery(); // écrire
+        }
+
+        /// <summary>
         /// méthode qui va sauvegarder les données dans la DB avec le paramètre de la liste des jeux
         /// </summary>
         /// <param name="games">liste des jeux</param>
         public static void saveGames(List<GameData> games)
         {
+            makeSureDbIsInitialized(); // s'assurer que la DB est initialisée
             using var connection = new SqliteConnection(connectionDb); //connexion
             connection.Open(); //faire la connexion a la db
 
@@ -66,6 +89,7 @@ namespace PlotThoseLines_P_FUN_SamuelSallaku
         /// <returns>retourne la liste des jeux</returns>
         public static List<GameData> loadGames()
         {
+            makeSureDbIsInitialized(); // s'assurer que la DB est initialisée
             // créer une nouvelle liste de GameData vide 
             var gameList = new List<GameData>();
 

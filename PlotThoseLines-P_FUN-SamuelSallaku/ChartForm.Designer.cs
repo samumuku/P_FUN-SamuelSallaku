@@ -37,9 +37,9 @@
             // PlotForm
             // 
             PlotForm.DisplayScale = 1F;
-            PlotForm.Location = new Point(244, 25);
+            PlotForm.Location = new Point(220, 30);
             PlotForm.Name = "PlotForm";
-            PlotForm.Size = new Size(728, 428);
+            PlotForm.Size = new Size(790, 484);
             PlotForm.TabIndex = 0;
             // 
             // button1
